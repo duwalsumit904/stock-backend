@@ -13,7 +13,7 @@ load_dotenv()
 
 app = FastAPI()
 
-# 🔓 CORS
+#  CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -22,14 +22,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 🔑 KEYS
+#  KEYS
 AI_API_KEY = os.getenv("AI_API_KEY")
 
 API_KEY = os.getenv("API_KEY")
 print("AI_API_KEY",AI_API_KEY)
 print("API_KEY",API_KEY)
 
-# 📦 MODELS
+#  MODELS
 class StockDay(BaseModel):
     date: str
     open: float
@@ -105,11 +105,11 @@ No markdown. No backticks. No extra text.
 
         ai_text = data["candidates"][0]["content"]["parts"][0]["text"]
 
-        # 🔥 CLEAN TEXT
+        #  CLEAN TEXT
         ai_text = ai_text.strip()
         ai_text = ai_text.replace("```json", "").replace("```", "")
 
-        # 🔥 EXTRACT ONLY JSON PART
+        #  EXTRACT ONLY JSON PART
         start = ai_text.find("{")
         end = ai_text.rfind("}") + 1
 
@@ -120,7 +120,7 @@ No markdown. No backticks. No extra text.
 
         parsed = json.loads(ai_text)
 
-        # 🔥 SAFETY CHECK (keys exist)
+        #  SAFETY CHECK (keys exist)
         return {
             "summary": parsed.get("summary", "No summary"),
             "risk": parsed.get("risk", "unknown"),
@@ -191,7 +191,7 @@ def get_stock(symbol: str):
     else:
         trend = "sideways"
 
-    # 💡 RECOMMENDATION
+    #  RECOMMENDATION
     if trend == "up":
         recommendation = "buy"
     elif trend == "down":
